@@ -945,6 +945,54 @@ body {
   }
 }
 
+/* SPACE MUSIC CONTROL */
+
+.music-toggle {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 9999;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 226, 163, .65);
+  border-radius: 50%;
+
+  background: rgba(18, 26, 64, .75);
+  backdrop-filter: blur(12px);
+
+  color: #ffe2a3;
+  font-size: 25px;
+
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, .2);
+  transition: transform .3s, background .3s;
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  background: rgba(45, 40, 95, .9);
+}
+
+.music-toggle[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .music-toggle {
+    top: 14px;
+    right: 14px;
+    width: 42px;
+    height: 42px;
+    font-size: 22px;
+  }
+}
+
 
 
 
