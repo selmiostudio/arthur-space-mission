@@ -642,5 +642,33 @@ body {
   }
 }
 
+/* DESKTOP FIX — BIRTHDAY PLANET SCROLL */
+
+@media (min-width: 601px) {
+
+  .birthday-screen.active-screen {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    max-height: none;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: safe center;
+
+    box-sizing: border-box;
+    overscroll-behavior: contain;
+  }
+
+  .birthday-content {
+    flex-shrink: 0;
+  }
+
+}
+
 
 
