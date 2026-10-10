@@ -164,6 +164,107 @@
   </div>
 </section>
 
+<!-- SCREEN 4 — JOIN THE CREW -->
+<section class="rsvp-screen" id="rsvpScreen"
+         aria-labelledby="rsvpTitle">
+
+  <div class="rsvp-stars" aria-hidden="true"></div>
+
+  <div class="rsvp-content">
+
+    <p class="rsvp-eyebrow">FINAL MISSION · RSVP</p>
+
+    <h2 id="rsvpTitle">
+      MISSION
+      <span>ACCEPTED?</span>
+    </h2>
+
+    <img
+      src="assets/images/birthday-cake.png"
+      alt="Arthur's fifth birthday space cake"
+      class="rsvp-cake"
+    >
+
+    <p class="rsvp-intro">
+      Join Captain Arthur's crew for
+      an out-of-this-world birthday celebration!
+    </p>
+
+    <form class="rsvp-form" id="rsvpForm">
+
+      <p class="rsvp-form-title">YOUR BOARDING PASS</p>
+
+      <label for="guestName">YOUR NAME</label>
+      <input
+        type="text"
+        id="guestName"
+        name="guestName"
+        placeholder="Enter your name"
+        autocomplete="name"
+        required
+      >
+
+      <fieldset class="rsvp-attendance">
+        <legend>WILL YOU JOIN US?</legend>
+
+        <label class="rsvp-choice">
+          <input
+            type="radio"
+            name="attendance"
+            value="yes"
+            required
+            checked
+          >
+          <span>YES, I'LL BE THERE! 🚀</span>
+        </label>
+
+        <label class="rsvp-choice">
+          <input
+            type="radio"
+            name="attendance"
+            value="no"
+          >
+          <span>SORRY, I CAN'T MAKE IT</span>
+        </label>
+      </fieldset>
+
+      <div class="rsvp-guests-field" id="rsvpGuestsField">
+        <label for="guestCount">NUMBER OF GUESTS</label>
+        <select id="guestCount" name="guestCount">
+          <option value="1">1 SPACE EXPLORER</option>
+          <option value="2">2 SPACE EXPLORERS</option>
+          <option value="3">3 SPACE EXPLORERS</option>
+          <option value="4">4 SPACE EXPLORERS</option>
+          <option value="5">5 SPACE EXPLORERS</option>
+        </select>
+      </div>
+
+      <button type="submit" class="rsvp-submit">
+        SEND MY RSVP ✦
+      </button>
+
+      <p class="rsvp-form-note">
+        Your mission response is important to us!
+      </p>
+
+    </form>
+
+    <div class="rsvp-success" id="rsvpSuccess"
+         role="status" aria-live="polite" hidden>
+      <h3>READY FOR TAKEOFF!</h3>
+      <p id="rsvpSuccessMessage"></p>
+      <button type="button" id="rsvpEditResponse">
+        EDIT MY RESPONSE
+      </button>
+    </div>
+
+    <p class="rsvp-footer">
+      SEE YOU AMONG THE STARS ✦
+    </p>
+
+  </div>
+</section>
+
 
 
 </body>
