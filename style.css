@@ -209,3 +209,175 @@ h1 span {
     animation: none;
   }
 }
+
+/* SCREEN 2 — MEET CAPTAIN ARTHUR */
+
+.captain-screen {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 70px 20px;
+  background:
+    linear-gradient(180deg,
+      rgba(12, 18, 49, .35),
+      rgba(26, 27, 77, .55)),
+    url('assets/images/space-background-light.webp')
+    center / cover no-repeat;
+}
+
+.captain-content {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 700px);
+  text-align: center;
+}
+
+.captain-eyebrow {
+  color: #f5c77b;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+.captain-content h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(38px, 7vw, 72px);
+  line-height: 1.05;
+  margin: 14px 0 20px;
+  text-shadow: 0 6px 22px rgba(0,0,0,.25);
+}
+
+.captain-content h2 span {
+  display: block;
+  color: #f5c77b;
+}
+
+.captain-astronaut {
+  width: min(58vw, 330px);
+  max-height: 38vh;
+  object-fit: contain;
+  margin: 0 auto;
+  animation: captainFloat 5s ease-in-out infinite;
+  filter: drop-shadow(0 20px 35px rgba(0,0,0,.25));
+}
+
+.captain-content h3 {
+  font-family: 'Fredoka', sans-serif;
+  color: #ffe0a2;
+  font-size: clamp(21px, 4vw, 34px);
+  margin: 18px 0 8px;
+}
+
+.captain-description {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 0 auto 25px;
+}
+
+.captain-button {
+  padding: 16px 28px;
+  border: 1px solid #fff1ca;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ffe2a3, #e8ac58);
+  color: #26304f;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform .3s;
+}
+
+.captain-button:hover {
+  transform: translateY(-4px);
+}
+
+.captain-saturn,
+.captain-moon {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.captain-saturn {
+  width: clamp(100px, 22vw, 260px);
+  top: 8%;
+  right: -4%;
+  animation: captainFloat 7s ease-in-out infinite;
+}
+
+.captain-moon {
+  width: clamp(85px, 17vw, 190px);
+  bottom: 9%;
+  left: -3%;
+  animation: captainFloat 6s ease-in-out infinite reverse;
+}
+
+.captain-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 20% 25%, #fff, transparent),
+    radial-gradient(3px 3px at 75% 60%, #ffe0a2, transparent),
+    radial-gradient(2px 2px at 45% 85%, #fff, transparent);
+  background-size: 250px 250px;
+  animation: twinkle 5s ease-in-out infinite alternate;
+}
+
+@keyframes captainFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .captain-screen {
+    padding: 48px 18px;
+  }
+
+  .captain-content h2 {
+    font-size: clamp(36px, 10vw, 52px);
+  }
+
+  .captain-astronaut {
+    width: min(65vw, 250px);
+    max-height: 32vh;
+  }
+
+  .captain-saturn {
+    width: 115px;
+    top: 12%;
+    right: -35px;
+  }
+
+  .captain-moon {
+    width: 90px;
+    bottom: 12%;
+    left: -30px;
+  }
+
+  .captain-description {
+    font-size: 14px;
+  }
+
+  .captain-button {
+    padding: 15px 22px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .captain-astronaut,
+  .captain-saturn,
+  .captain-moon,
+  .captain-stars {
+    animation: none;
+  }
+}
+
