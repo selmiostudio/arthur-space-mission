@@ -584,4 +584,63 @@ h1 span {
   }
 }
 
+/* INTERACTIVE SCREEN NAVIGATION */
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Hide all screens by default */
+.hero,
+.captain-screen,
+.birthday-screen {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  box-sizing: border-box;
+}
+
+/* Only the active screen is visible */
+.hero.active-screen,
+.captain-screen.active-screen,
+.birthday-screen.active-screen {
+  display: flex;
+  animation: screenAppear 0.8s ease both;
+}
+
+@keyframes screenAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero.active-screen,
+  .captain-screen.active-screen,
+  .birthday-screen.active-screen {
+    overflow-y: auto;
+    max-height: 100svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.active-screen,
+  .captain-screen.active-screen,
+  .birthday-screen.active-screen {
+    animation: none;
+  }
+}
+
+
 
