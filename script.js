@@ -2,10 +2,10 @@
 /* ==========================================
    ARTHUR'S SPACE MISSION
    Interactive Birthday Invitation
-   Screens 1–4 + RSVP Preview
+   Screens 1–4 + RSVP + Space Music
 ========================================== */
 
-/* Always begin from the first screen */
+/* Always start from the first screen */
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
@@ -32,6 +32,78 @@ document.addEventListener("DOMContentLoaded", () => {
     rsvpScreen
   ].filter(Boolean);
 
+  /* ========================================
+     MUSIC ELEMENTS
+  ======================================== */
+
+  const spaceMusic = document.querySelector("#spaceMusic");
+  const musicToggle = document.querySelector("#musicToggle");
+  const musicIcon = document.querySelector("#musicIcon");
+
+  let musicEnabled = true;
+  let musicStarted = false;
+
+  if (spaceMusic) {
+    spaceMusic.volume = 0.35;
+    spaceMusic.loop = true;
+  }
+
+  function updateMusicButton() {
+    if (!musicToggle) return;
+
+    const isPlaying = spaceMusic
+      ? !spaceMusic.paused
+      : false;
+
+    if (musicIcon) {
+      musicIcon.textContent = isPlaying ? "♫" : "♪";
+    }
+
+    musicToggle.setAttribute(
+      "aria-label",
+      isPlaying ? "Turn music off" : "Turn music on"
+    );
+
+    musicToggle.setAttribute(
+      "aria-pressed",
+      String(isPlaying)
+    );
+  }
+
+  async function playSpaceMusic() {
+    if (!spaceMusic) return;
+
+    try {
+      await spaceMusic.play();
+      musicStarted = true;
+    } catch (error) {
+      console.warn("Music playback was blocked:", error);
+    }
+
+    updateMusicButton();
+  }
+
+  function stopSpaceMusic() {
+    if (!spaceMusic) return;
+
+    spaceMusic.pause();
+    updateMusicButton();
+  }
+
+  if (musicToggle && spaceMusic) {
+    musicToggle.addEventListener("click", () => {
+      if (spaceMusic.paused) {
+        musicEnabled = true;
+        playSpaceMusic();
+      } else {
+        musicEnabled = false;
+        stopSpaceMusic();
+      }
+    });
+
+    spaceMusic.addEventListener("play", updateMusicButton);
+    spaceMusic.addEventListener("pause", updateMusicButton);
+  }
 
   /* ========================================
      SCREEN NAVIGATION
@@ -52,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo(0, 0);
     screen.scrollTop = 0;
   }
-
 
   /* ========================================
      RESET TO FIRST SCREEN
@@ -75,15 +146,27 @@ document.addEventListener("DOMContentLoaded", () => {
       startButton.disabled = false;
     }
 
+    if (spaceMusic) {
+      spaceMusic.pause();
+      spaceMusic.currentTime = 0;
+    }
+
+    musicEnabled = true;
+    musicStarted = false;
+
+    if (musicToggle) {
+      musicToggle.hidden = true;
+    }
+
+    updateMusicButton();
     showScreen(hero);
   }
 
   resetMission();
 
-
   /* ========================================
      SCREEN 1 -> SCREEN 2
-     ROCKET LAUNCH
+     ROCKET LAUNCH + MUSIC START
   ======================================== */
 
   if (startButton && captainScreen) {
@@ -93,10 +176,21 @@ document.addEventListener("DOMContentLoaded", () => {
       launching = true;
       startButton.disabled = true;
 
-      // Restart and preserve rocket animation
+      // Restart rocket animation
       document.body.classList.remove("mission-started");
       void document.body.offsetWidth;
       document.body.classList.add("mission-started");
+
+      // Start music on user interaction
+      if (spaceMusic && musicEnabled) {
+        playSpaceMusic();
+      }
+
+      // Reveal music button
+      if (musicToggle && spaceMusic) {
+        musicToggle.hidden = false;
+        updateMusicButton();
+      }
 
       // Open Captain Arthur after launch
       launchTimer = window.setTimeout(() => {
@@ -105,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 2500);
     });
   }
-
 
   /* ========================================
      SCREEN 2 -> SCREEN 3
@@ -118,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   /* ========================================
      SCREEN 3 -> SCREEN 4
      JOIN THE CREW
@@ -129,7 +221,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showScreen(rsvpScreen);
     });
   }
-
 
   /* ========================================
      SCREEN 4 — RSVP FORM
@@ -148,9 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const guestNameInput = document.querySelector("#guestName");
   const guestsField = document.querySelector("#rsvpGuestsField");
   const guestCount = document.querySelector("#guestCount");
-
-
-  /* Show guest count only for YES responses */
 
   function updateAttendance() {
     if (!rsvpForm) return;
@@ -171,9 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
   if (rsvpForm) {
-
     const attendanceInputs = rsvpForm.querySelectorAll(
       'input[name="attendance"]'
     );
@@ -184,29 +270,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateAttendance();
 
-
-    /* ======================================
-       RSVP SUBMISSION — PREVIEW ONLY
-    ====================================== */
-
+    /* RSVP — PREVIEW ONLY */
     rsvpForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      if (!rsvpForm.reportValidity()) {
-        return;
-      }
+      if (!rsvpForm.reportValidity()) return;
 
       const guestName = guestNameInput?.value.trim();
 
-      const selectedAttendance = rsvpForm.querySelector(
+      const attendance = rsvpForm.querySelector(
         'input[name="attendance"]:checked'
-      );
+      )?.value;
 
-      const attendance = selectedAttendance?.value;
-
-      if (!guestName || !attendance) {
-        return;
-      }
+      if (!guestName || !attendance) return;
 
       const numberOfGuests =
         attendance === "yes"
@@ -232,7 +308,6 @@ document.addEventListener("DOMContentLoaded", () => {
         rsvpSuccessMessage.textContent = message;
       }
 
-      // Hide form and display confirmation preview
       rsvpForm.hidden = true;
       rsvpForm.style.display = "none";
 
@@ -248,14 +323,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-
-    /* ======================================
-       EDIT RSVP RESPONSE
-    ====================================== */
-
+    /* EDIT RSVP */
     if (editResponseButton) {
       editResponseButton.addEventListener("click", () => {
-
         if (rsvpSuccess) {
           rsvpSuccess.hidden = true;
         }
@@ -275,9 +345,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
   /* ========================================
-     RESET WHEN RESTORED FROM BROWSER CACHE
+     RESET AFTER BROWSER CACHE RESTORE
   ======================================== */
 
   window.addEventListener("pageshow", (event) => {
