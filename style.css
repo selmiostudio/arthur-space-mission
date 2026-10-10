@@ -994,5 +994,42 @@ body {
 }
 
 
+/* FIX — BIRTHDAY PLANET MOBILE TOP ALIGNMENT */
+
+@media (max-width: 600px) {
+
+  .birthday-screen.active-screen {
+    display: flex;
+    flex-direction: column;
+
+    height: 100dvh;
+    min-height: 0;
+    max-height: none;
+
+    justify-content: flex-start;
+    align-items: center;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding: 45px 18px 65px;
+    box-sizing: border-box;
+
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .birthday-screen .birthday-content {
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .birthday-screen .birthday-eyebrow {
+    margin-top: 0;
+  }
+
+}
+
 
 
