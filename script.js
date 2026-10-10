@@ -1,4 +1,21 @@
 
+/* Always start the invitation from the first screen */
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+window.addEventListener("load", () => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+  });
+});
+
+window.addEventListener("pageshow", () => {
+  window.scrollTo(0, 0);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.querySelector("#startMission");
   const captainScreen = document.querySelector("#captainScreen");
