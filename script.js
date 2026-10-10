@@ -1,54 +1,76 @@
 
-/* Always start the invitation from the first screen */
+
+/* ARTHUR'S SPACE MISSION — SCREEN NAVIGATION */
+
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
 
-window.addEventListener("load", () => {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: "instant"
-  });
-});
-
-window.addEventListener("pageshow", () => {
-  window.scrollTo(0, 0);
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-  const startButton = document.querySelector("#startMission");
+  const hero = document.querySelector("#hero");
   const captainScreen = document.querySelector("#captainScreen");
+  const birthdayScreen = document.querySelector("#birthdayScreen");
+
+  const startButton = document.querySelector("#startMission");
   const continueButton = document.querySelector("#continueJourney");
-  const rocket = document.querySelector(".rocket");
 
-  if (startButton && captainScreen && rocket) {
-    let launching = false;
+  const screens = [hero, captainScreen, birthdayScreen].filter(Boolean);
 
+  function showScreen(screen) {
+    if (!screen) return;
+
+    screens.forEach((item) => {
+      item.classList.remove("active-screen");
+      item.setAttribute("aria-hidden", "true");
+    });
+
+    screen.classList.add("active-screen");
+    screen.removeAttribute("aria-hidden");
+
+    window.scrollTo(0, 0);
+  }
+
+  // Always begin at the launch station
+  showScreen(hero);
+
+  let launching = false;
+
+  if (startButton && captainScreen) {
     startButton.addEventListener("click", () => {
       if (launching) return;
 
       launching = true;
       startButton.disabled = true;
 
+      // Preserve the existing rocket launch animation
+      document.body.classList.remove("mission-started");
+      void document.body.offsetWidth;
       document.body.classList.add("mission-started");
 
-      // Move to Captain Arthur after rocket launch
+      // Reveal Captain Arthur after the launch
       window.setTimeout(() => {
-        captainScreen.scrollIntoView({
-          behavior: window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-          ).matches ? "instant" : "smooth",
-          block: "start"
-        });
+        showScreen(captainScreen);
       }, 2500);
     });
   }
 
-  if (continueButton) {
+  if (continueButton && birthdayScreen) {
     continueButton.addEventListener("click", () => {
-      // Screen 3 will be connected next
-      continueButton.textContent = "NEXT DESTINATION COMING SOON ✦";
+      showScreen(birthdayScreen);
     });
   }
+
+  // Start from the first screen when reopening the page
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      document.body.classList.remove("mission-started");
+      launching = false;
+
+      if (startButton) {
+        startButton.disabled = false;
+      }
+
+      showScreen(hero);
+    }
+  });
 });
